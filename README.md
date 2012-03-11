@@ -11,4 +11,10 @@ Warning: If you already have a composer.json file, it will overwrite it.
 
 ## Usage
 
+To convert from yaml to json, run:
+
     $ bin/composer-yaml
+
+To convert from json to yaml, run:
+
+    $ bin/composer-yaml --reverse
