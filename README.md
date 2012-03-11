@@ -11,4 +11,4 @@ Warning: If you already have a composer.json file, it will overwrite it.
 
 ## Usage
 
-    $ php convert.php
+    $ bin/composer-yaml

@@ -2,5 +2,8 @@
     "require": {
         "symfony/yaml": "2.0.*",
         "composer/composer": "dev-master"
-    }
+    },
+    "bin": [
+        "bin/composer-yaml"
+    ]
 }
