@@ -2,7 +2,7 @@
 name: igorw/composer-yaml
 description: Tool to convert from composer.yml to composer.json.
 require:
-  symfony/yaml: '2.0.*'
-  composer/composer: dev-master
+    symfony/yaml: '2.0.*'
+    composer/composer: dev-master
 bin:
-  - bin/composer-yaml
+    - bin/composer-yaml
