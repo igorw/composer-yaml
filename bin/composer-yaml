@@ -3,18 +3,68 @@
 
 require __DIR__.'/../vendor/.composer/autoload.php';
 
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use Composer\Json\JsonFile;
 
-if ($argc > 1 && '--reverse' === $argv[1]) {
-    $json = file_get_contents('composer.json');
-    $data = JsonFile::parseJson($json);
+$console = new Application();
+$console
+    ->register('convert')
+    ->setDefinition(array(
+        new InputArgument('from', InputArgument::OPTIONAL, null, 'composer.yml'),
+        new InputArgument('to', InputArgument::OPTIONAL, null, 'composer.json'),
+    ))
+    ->setDescription('Converts a composer.yml to json or vice-versa')
+    ->setCode(function (InputInterface $input, OutputInterface $output) {
+        $from = $input->getArgument('from');
+        $to = $input->getArgument('to');
 
-    $yaml = Yaml::dump($data);
-    file_put_contents('composer.yml', $yaml);
-} else {
-    $data = Yaml::parse('composer.yml');
+        $validFormats = array('json', 'yml');
 
-    $json = JsonFile::encode($data)."\n";
-    file_put_contents('composer.json', $json);
-}
+        if ($from && !file_exists($from)) {
+            throw new \InvalidArgumentException(sprintf("The input file '%s' does not exist.", $from));
+        }
+
+        if ($to && !file_exists($to)) {
+            throw new \InvalidArgumentException(sprintf("The output file '%s' does not exist.", $to));
+        }
+
+        $inputContent = file_get_contents($from);
+        $inputFormat = pathinfo($from, PATHINFO_EXTENSION);
+
+        if (!in_array($inputFormat, $validFormats)) {
+            throw new \InvalidArgumentException(
+                sprintf("Invalid input format '%s', must be one of: %s", $inputFormat, implode(', ', $validFormats)));
+        }
+
+        $outputFormat = pathinfo($to, PATHINFO_EXTENSION);
+
+        if (!in_array($outputFormat, $validFormats)) {
+            throw new \InvalidArgumentException(
+                sprintf("Invalid output format '%s', must be one of: %s", $outputFormat, implode(', ', $validFormats)));
+        }
+
+        if ($outputFormat === $inputFormat) {
+            throw new \InvalidArgumentException('Input format is same as output format.');
+        }
+
+        if ('json' === $inputFormat) {
+            $data = JsonFile::parseJson($inputContent);
+        } elseif ('yml' === $inputFormat) {
+            $data = Yaml::parse($inputContent);
+        }
+
+        if ('json' === $outputFormat) {
+            $outputContent = JsonFile::encode($data)."\n";
+        } else {
+            $outputContent = Yaml::dump($data);
+        }
+
+        file_put_contents($to, $outputContent);
+    })
+;
+
+$console->run();

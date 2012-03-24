@@ -1,6 +1,7 @@
 # composer-yaml
 
-This project allows you to convert a composer.yml file into composer.json format. It will use those exact filenames of your current working directory.
+This project allows you to convert a composer.yml file into composer.json
+format. It will use those exact filenames of your current working directory.
 
 Warning: If you already have a composer.json file, it will overwrite it.
 
@@ -13,8 +14,8 @@ Warning: If you already have a composer.json file, it will overwrite it.
 
 To convert from yaml to json, run:
 
-    $ bin/composer-yaml
+    $ bin/composer-yaml convert
 
 To convert from json to yaml, run:
 
-    $ bin/composer-yaml --reverse
+    $ bin/composer-yaml convert composer.json composer.yml
