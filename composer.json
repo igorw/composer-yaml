@@ -4,7 +4,7 @@
     "require": {
         "symfony/console": "2.1.*",
         "symfony/yaml": "2.1.*",
-        "composer/composer": "dev-master"
+        "composer/composer": "1.0.*@dev"
     },
     "bin": [
         "bin/composer-yaml"
