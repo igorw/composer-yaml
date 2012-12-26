@@ -1,0 +1,7 @@
+{
+    "name": "foo/bar",
+    "description": "The foobar.",
+    "require": {
+        "baz/qux": "1.0.*@dev"
+    }
+}
