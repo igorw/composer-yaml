@@ -1,0 +1,6 @@
+{
+    "directories": ["vendor"],
+    "main": "bin/composer-yaml",
+    "output": "composer-yaml.phar",
+    "stub": true
+}

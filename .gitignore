@@ -1,1 +1,4 @@
 vendor
+composer.phar
+composer-yaml.phar
+box.phar
